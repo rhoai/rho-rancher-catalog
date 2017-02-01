@@ -1,0 +1,33 @@
+version: '2'
+services:
+  Minecraft:
+    environment:
+      EULA: ${EULA}
+      VERSION: ${VERSION}
+      DIFFICULTY: ${DIFFICULTY}
+      MODE: ${MODE}
+      PVP: ${PVP}
+      WHITELIST: ${WHITELIST}
+      OPS: ${OPS}
+      MOTD: ${MOTD}
+      SEED: ${SEED}
+      WORLD: ${WORLD}
+    tty: true
+    image: itzg/minecraft-server
+    stdin_open: true
+    volumes:
+      - /data/minecraft:/data
+    labels:
+      io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}
+
+  MinecraftLB:
+    ports:
+      - ${PORT}:25565/tcp
+    tty: true
+    image: rancher/load-balancer-service
+    links:
+      - Minecraft:Minecraft
+    stdin_open: true
+    labels:
+      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+      io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}

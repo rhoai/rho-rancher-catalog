@@ -1,0 +1,35 @@
+version: '2'
+services:
+  cassandra-metrics-config:
+    image: pitrho/cassandra-metrics-config:v0.1.1
+    labels:
+      io.rancher.container.start_once: true
+    log_driver: "json-file"
+    log_opt:
+      max-size: "50m"
+      max-file: "7"
+    environment:
+      JMX_PORT: 7199
+      JMX_USERNAME: $CASSANDRA_ADMIN_USER
+      JMX_PASSWORD: $CASSANDRA_ADMIN_PASSWORD
+    volumes:
+      - /config
+
+  jmxtrans:
+    image: pitrho/jmxtrans:v0.1.1
+    labels:
+      io.rancher.scheduler.global: 'true'
+      io.rancher.scheduler.affinity:host_label: cassandra-server=true
+      io.rancher.sidekicks: cassandra-metrics-config
+    log_driver: "json-file"
+    log_opt:
+      max-size: "50m"
+      max-file: "7"
+    environment:
+      SECONDS_BETWEEN_RUNS: $SECONDS_BETWEEN_RUNS
+      CONTINUE_ON_ERROR: $CONTINUE_ON_ERROR
+      FILENAME: /config/queries.json
+      JMXTRANS_OPTS: -Djmxtrans.log.level=WARN -Djmxtrans.log.dir=/var/log/jmxtrans -Dlog4j.configuration=file:/config/log4j_logentries.xml
+      JAVA_OPTS: -cp /usr/share/jmxtrans/lib/jmxtrans-all.jar:/config/logentries-appender.jar -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true
+    volumes_from:
+      - cassandra-metrics-config

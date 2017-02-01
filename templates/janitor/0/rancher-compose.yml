@@ -1,0 +1,31 @@
+version: '2'
+catalog:
+  name: "Janitor"
+  version: "v1.4.0"
+  description: "Docker cleanup"
+  uuid: janitor-0
+  questions:
+    - variable: "FREQUENCY"
+      label: "Frequency"
+      description: "Run the cleanup on a cycle of this many seconds"
+      default: 3600
+      required: true
+      type: "int"
+    - variable: "EXCLUDE_LABEL"
+      label: "Exclude label"
+      description: "Specify a Rancher host label here that will be used to determine on which hosts the container should not deploy."
+      default: janitor-exclude=true
+      required: true
+      type: "string"
+    - variable: "KEEP_IMAGES"
+      label: "Keep images"
+      description: "A comma separated list of images that should never be removed"
+      default: "rancher/agent:v1.1.3,rancher/server:v1.3.3,rancher/lb-service-haproxy:v0.4.9"
+      required: false
+      type: "string"
+    - variable: "KEEP_CONTAINERS"
+      label: "Keep containers"
+      description: "A comma separated list of images for running containers that should never be removed"
+      default: "rancher/agent:v1.1.3,rancher/server:v1.3.3,rancher/lb-service-haproxy:v0.4.9"
+      required: false
+      type: "string"

@@ -1,0 +1,6 @@
+name: Log Entries
+description: |
+  Ship all STDOUT logs to Log Entries.
+version: v0.1.0
+category: monitoring
+maintainer: Pit Rho

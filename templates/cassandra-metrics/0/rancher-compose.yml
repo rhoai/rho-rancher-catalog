@@ -1,0 +1,28 @@
+version: '2'
+catalog:
+  name: "Cassandra-Metrics"
+  version: "v0.1.0"
+  description: "Cassandra metrix using jmxtrans"
+  questions:
+    - variable: "CASSANDRA_ADMIN_USER"
+      label: "Cassandra JMX Username"
+      description: "Username of the Cassandra JMX user."
+      required: true
+      type: "string"
+    - variable: "CASSANDRA_ADMIN_PASSWORD"
+      label: "Cassandra JMX Password"
+      description: "Passsword of hte Casasandra JMX user."
+      required: true
+      type: "string"
+    - variable: "SECONDS_BETWEEN_RUNS"
+      label: "Seconds Between Runs"
+      description: "Time to wait between runs"
+      default: 30
+      required: true
+      type: "int"
+    - variable: "CONTINUE_ON_ERROR"
+      label: "Continue On Error"
+      description: "Should the system continue with the next query after an error"
+      default: false
+      required: true
+      type: "boolean"

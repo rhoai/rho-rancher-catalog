@@ -1,0 +1,5 @@
+name: Redis with Backups
+description: |
+  Basic Redis instance. No HA. Includes backups to S3.
+version: 0.1.0-pitrho
+category: databases

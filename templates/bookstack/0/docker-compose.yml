@@ -1,0 +1,55 @@
+version: '2'
+services:
+  bookstack:
+    image: solidnerd/bookstack:0.11.0
+    labels:
+      io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}
+    links:
+      - bookstack-db:bookstack-db
+    environment:
+      - DB_HOST=bookstack-db
+      - DB_DATABASE=${BOOKSTACK_DB}
+      - DB_USERNAME=${BOOKSTACK_USER}
+      - DB_PASSWORD=${BOOKSTACK_PASS}
+    ports:
+      - "80"
+
+  bookstack-db:
+    image: pitrho/docker-mysql:5.6-2.1.0
+    labels:
+      io.rancher.sidekicks: bookstack-db-backup
+      io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}
+    environment:
+      - ON_CREATE_DB=${BOOKSTACK_DB}
+      - MYSQL_USER=${BOOKSTACK_USER}
+      - MYSQL_PASS=${BOOKSTACK_PASS}
+      - LOW_MEMORY_MODE=${BOOKSTACK_LOW_MEMORY_MODE}
+    volumes:
+      - bookstackdata:/var/lib/mysql
+
+  bookstack-db-backup:
+    image: pitrho/docker-mysql:5.6-2.1.0
+    command: /enable_backups.sh
+    links:
+      - bookstack-db:bookstack-db
+    environment:
+      - MYSQL_DB=${BOOKSTACK_DB}
+      - MYSQL_HOST=bookstack-db
+      - MYSQL_PORT=3306
+      - MYSQL_USER=${BOOKSTACK_USER}
+      - MYSQL_PASS=${BOOKSTACK_PASS}
+      - AWS_ACCESS_KEY_ID=${BOOKSTACK_AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${BOOKSTACK_AWS_SECRET_ACCESS_KEY}
+      - AWS_DEFAULT_REGION=${BOOKSTACK_AWS_DEFAULT_REGION}
+      - S3_BUCKET=${BOOKSTACK_S3_BUCKET}
+      - CRON_TIME=${BOOKSTACK_CRON_TIME}
+
+  bookstack-lb:
+    ports:
+      - 80:80
+    labels:
+      io.rancher.loadbalancer.target.bookstack: documentation.pitrho.com:80=80
+      io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}
+    image: rancher/load-balancer-service
+    links:
+      - bookstack:bookstack

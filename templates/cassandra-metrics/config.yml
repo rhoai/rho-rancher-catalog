@@ -1,0 +1,6 @@
+name: Cassandra-Metrics
+description: |
+  Cassandra metrics from jmxtrans
+version: v0.1.0
+category: utilities
+maintainer: Pit Rho <info@pitrho.com>

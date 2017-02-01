@@ -1,0 +1,37 @@
+version: '2'
+services:
+  # Redis Data container, same idea as w/ Postgres
+  redis-data:
+    image: pitrho/trusty-redis
+    command: /bin/echo "Data-only container for Redis"
+    labels:
+      io.rancher.container.start_once: true
+    volumes:
+      - /var/lib/redis
+
+  # Schedules a cron to execute the backup script, which copies the dump.rdb file
+  # to S3
+  redis-backup:
+    image: pitrho/trusty-redis
+    command: /enable_backups.sh
+    volumes_from:
+      - redis-data
+    environment:
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+      S3_BUCKET: $S3_BUCKET_REDIS
+      CRON_TIME: $REDIS_CRON_TIME
+
+  # Redis itself.
+  redis:
+    image: pitrho/trusty-redis
+    ports:
+      - "6739:6739"
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+      io.rancher.scheduler.affinity:host_label: $REDIS_AFFINITY_HOST_LABEL
+      io.rancher.sidekicks: redis-data, redis-backup
+    volumes_from:
+      - redis-data

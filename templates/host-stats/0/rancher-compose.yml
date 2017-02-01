@@ -1,0 +1,67 @@
+version: '2'
+catalog:
+  name: "Host Stats"
+  version: "v0.1.0"
+  description: "Report host machine utilization stats"
+  uuid: host-stats-0
+  questions:
+    - variable: "STATS_TO_REPORT"
+      label: "Stats to Report"
+      description: "Pass flags dictating which statistics to report, defaults to `-cmdn`."
+      default: '-cmdn'
+      required: true
+      type: "string"
+    - variable: "FREQUENCY"
+      label: "Reporting Frequency"
+      description: "Provide an integer value in seconds (s). Defaults to 30s."
+      default: 30
+      required: true
+      type: "int"
+    - variable: "KEY"
+      label: "Message Prefix"
+      description: "An optional Prefix to prepend to the logged message. (Remember to add a space to the end...)"
+      default: "host_stats "
+      required: true
+      type: "string"
+    - variable: "PROCPATH"
+      label: "Path to /proc"
+      description: "Path to mounted /proc directory. Defaults to /proc_host"
+      default: "/proc_host"
+      required: true
+      type: "string"
+    - variable: "DISKPATHS"
+      label: "Disk path to report"
+      description: "Specific disk path to report. Defaults to reporting all cAdvisor partitions."
+      default: "default"
+      required: true
+      type: "string"
+    - variable: "HOSTNAME"
+      label: "Specify a hostname to report."
+      description: "Specify a hostname to report. Defaults to using Rancher metadata if available or hostname from python interpreter if not."
+      default: "auto"
+      required: true
+      type: "string"
+    - variable: "CADVISORURL"
+      label: "Base url for Cadvisor."
+      description: "Base url for Cadvisor. Defaults to http://localhost:8080. Include port."
+      default: "http://localhost:8080"
+      required: true
+      type: "string"
+    - variable: "CADVISORAPI"
+      label: "cAdvisor API Version"
+      description: "API Version to use. Defaults to v1.3."
+      default: "v1.3"
+      required: true
+      type: "string"
+    - variable: "ADDITIONAL_FLAGS"
+      label: "Additional Flags. Defaults to --dotfriendly"
+      description: "Additional flags to pass, e.g. --asbytes, --pernic, --dotfriendly"
+      default: "--dotfriendly"
+      required: true
+      type: "string"
+    - variable: "HOST_STATS_EXCLUDE_LABEL"
+      label: "Exclude label"
+      description: "Specify a Rancher host label here that will be used to determine on which hosts the container should *not* deploy."
+      default: host-stats-exclude=true
+      required: true
+      type: "string"

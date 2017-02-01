@@ -1,0 +1,28 @@
+version: '2'
+services:
+  cassandra-repair-inc:
+    image: pitrho/cassandra-nodetool:v0.1.0
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: cassandra-server=true
+    log_driver: "json-file"
+    log_opt:
+      max-size: "50m"
+      max-file: "7"
+    environment:
+      CASSANDRA_JMX_PORT: $CASSANDRA_JMX_PORT
+      CASSANDRA_JMX_USERNAME: $CASSANDRA_JMX_USERNAME
+      CASSANDRA_JMX_PASSWORD: $CASSANDRA_JMX_PASSWORD
+      CASSANDRA_USE_JMX_SSL: $CASSANDRA_USE_JMX_SSL
+      CASSANDRA_RANCHER_SERVICES: $CASSANDRA_RANCHER_SERVICES
+      NODETOOL_COMMAND: repair
+      NODETOOL_COMMAND_OPTIONS: $NODETOOL_COMMAND_OPTIONS
+      CRON_SCHEDULE: $CRON_SCHEDULE_INC
+
+
+  cassandra-repair-full:
+    extends:
+      service: cassandra-repair-inc
+    environment:
+      NODETOOL_COMMAND_OPTIONS: "-full ${NODETOOL_COMMAND_OPTIONS}"
+      CRON_SCHEDULE: $CRON_SCHEDULE_FULL

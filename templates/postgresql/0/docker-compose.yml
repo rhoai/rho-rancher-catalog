@@ -1,0 +1,40 @@
+version: '2'
+services:
+  postgres-data:
+    image: pitrho/trusty-postgres
+    command: /bin/echo "Data-only container for PostgreSQL"
+    labels:
+      io.rancher.container.start_once: true
+    volumes:
+      - $PG_DATADIR
+
+  postgres-backup:
+    image: pitrho/trusty-postgres
+    command: /enable_backups.sh
+    links:
+      - postgres:postgres
+    net: "container:postgres"
+    environment:
+      PG_DB: $PG_DB
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+      S3_BUCKET: $S3_BUCKET_POSTGRES
+      CRON_TIME: $POSTGRES_CRON_TIME
+
+  postgres:
+    image: pitrho/trusty-postgres
+    ports:
+      - "5432:5432"
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+      io.rancher.scheduler.affinity:host_label: $POSTGRES_AFFINITY_HOST_LABEL
+      io.rancher.sidekicks: postgres-data, postgres-backup
+    volumes_from:
+      - postgres-data
+    environment:
+      PG_DATADIR: $PG_DATADIR
+      PG_USER: $PG_USER
+      PG_PASS: $PG_PASS
+      ON_CREATE_DB: $ON_CREATE_DB  # pass this if we want to automatically create the database

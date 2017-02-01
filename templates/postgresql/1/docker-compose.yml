@@ -1,0 +1,45 @@
+version: '2'
+services:
+  postgres-backup:
+    image: pitrho/postgres
+    command: /enable_backups.sh
+    links:
+      - postgres:postgres
+    net: "container:postgres"
+    log_driver: json-file
+    log_opt:
+      max-file: '7'
+      max-size: 50m
+    environment:
+      PG_DB: $PG_DB
+      PG_HOST: $PG_HOST
+      PG_PORT: $PG_PORT
+      PG_USER: $PG_USER
+      PG_PASS: $PG_PASS
+      AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+      AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+      AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+      S3_BUCKET: $S3_BUCKET_POSTGRES
+      CRON_TIME: $PG_CRON_TIME
+
+  postgres:
+    image: pitrho/postgres
+    ports:
+      - "$PG_PORT:$PG_PORT"
+    log_driver: json-file
+    log_opt:
+      max-file: '7'
+      max-size: 50m
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+      io.rancher.scheduler.affinity:host_label: $POSTGRES_AFFINITY_HOST_LABEL
+      io.rancher.sidekicks: postgres-backup
+    environment:
+      EXTRA_OPTS: $PG_EXTRA_OPTS
+      PG_DATADIR: $PG_DATADIR
+      PG_USER: $PG_USER
+      PG_PASS: $PG_PASS
+      ON_CREATE_DB: $PG_DB  # pass this if we want to automatically create the database
+    volumes:
+      - /data/postgres:/data/postgres

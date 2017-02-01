@@ -1,0 +1,6 @@
+name: Cassandra-Nodetool
+description: |
+  Cassandra nodetool
+version: v0.1.0
+category: utilities
+maintainer: Pit Rho <info@pitrho.com>

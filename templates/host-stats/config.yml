@@ -1,0 +1,6 @@
+name: Host Stats
+description: |
+  Log utilization stats (CPU, Memory, Disk, etc) about the host machine.
+version: v0.1.0
+category: monitoring
+maintainer: Pit Rho <info@pitrho.com>

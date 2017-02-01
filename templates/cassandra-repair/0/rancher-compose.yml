@@ -1,0 +1,53 @@
+version: '2'
+  catalog:
+    name: "Cassandra-Nodetool"
+    version: "v0.1.0"
+    description: "Cassandra repair (nodetool repair)"
+    questions:
+      - variable: "CASSANDRA_HOSTS"
+        label: "Cassandra Hosts"
+        description: "Comma-separated list of Cassandra host ips. Either this field or Cassandra Rancher Services must be specified."
+        required: false
+        type: "string"
+      - variable: "CASSANDRA_JMX_PORT"
+        label: "Cassandra JMX Port"
+        description: "Port for Cassandra JMX access (defaults to 7199)."
+        default: 7199
+        required: false
+        type: "int"
+      - variable: "CASSANDRA_RANCHER_SERVICES"
+        label: "Cassandra Services"
+        description: "Comma-separated list of Cassandra services. Either this field or Cassandra Hosts must be specified."
+        required: false
+        type: "string"
+      - variable: "CASSANDRA_JMX_USERNAME"
+        label: "Cassandra JMX Username"
+        description: "The username for cassandra JMX"
+        required: true
+        type: "string"
+      - variable: "CASSANDRA_JMX_PASSWORD"
+        label: "Cassandra JMX Password"
+        description: "The password for cassandra JMX"
+        required: true
+        type: "string"
+      - variable: "CASSANDRA_USE_JMX_SSL"
+        label: "Use SSL with JMX"
+        description: "Set to true if SSL is enabled for JMX on the cassandra server"
+        default: false
+        required: false
+        type: "boolean"
+      - variable: "NODETOOL_COMMAND"
+        label: "Nodetool Command"
+        description: "The nodetool command to run."
+        required: true
+        type: "string"
+      - variable: "NODETOOL_COMMAND_OPTIONS"
+        label: "Nodetool Command Options"
+        description: "Options to pass to nodetool command."
+        required: false
+        type: "string"
+      - variable: "CRON_SCHEDULE"
+        label: "Cron Command Schedule"
+        description: "Cron command schedule and user (i.e '0 6 * * *' to run every day at 6 AM)"
+        required: true
+        type: "string"
