@@ -17,10 +17,11 @@ services:
 
   cadvisor:
     image: google/cadvisor:v0.23.2
-    log_driver: json-file
-    log_opt:
-      max-file: '7'
-      max-size: 50m
+    logging:
+      driver: json-file
+      options:
+        max-file: '7'
+        max-size: 50m
     labels:
       io.rancher.scheduler.global: "true"
       io.rancher.scheduler.affinity:host_label_ne: ${HOST_STATS_EXCLUDE_LABEL}
