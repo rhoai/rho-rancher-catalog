@@ -13,6 +13,11 @@ services:
     privileged: true
     tty: true
     stdin_open: true
+    logging:
+      driver: json-file
+      options:
+        max-file: '7'
+        max-size: 50m
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker:/var/lib/docker

@@ -3,10 +3,11 @@ services:
   log-entries:
     image: pitrho/logentries
     command: --json --no-stats ${LOGENTRIES_TOKEN}
-    log_driver: json-file
-    log_opt:
-      max-file: '7'
-      max-size: 50m
+    logging:
+      driver: json-file
+      options:
+        max-file: '7'
+        max-size: 50m
     labels:
       io.rancher.scheduler.global: "true"
       io.rancher.container.hostname_override: container_name
