@@ -4,13 +4,14 @@ services:
     image: pitrho/docker-host-stats
     tty: true
     command: -f ${FREQUENCY} ${STATS_TO_REPORT} -k ${KEY} --procpath ${PROCPATH} --hostname ${HOSTNAME} --diskpaths ${DISKPATHS} --cadvisorurl ${CADVISORURL} --cadvisorapi ${CADVISORAPI} ${ADDITIONAL_FLAGS}
-    log_driver: json-file
-    log_opt:
-      max-file: '7'
-      max-size: 50m
+    logging:
+      driver: json-file
+      options:
+        max-file: '7'
+        max-size: 50m
     links:
       - "cadvisor:cadvisor"
-    net: "container:cadvisor"
+    network_mode: "container:cadvisor"
     volumes:
       - /proc:${PROCPATH}:ro
 
