@@ -13,7 +13,7 @@ catalog:
     - variable: "LOGENTRIES_OPTIONS"
       label: "Options"
       description: "Log Entries options to start. By default this skips output from rancher comtainers and skips host statistics reporting. See pitrho/logentries for full set of options."
-      default: "--json --no-stats --skipByImage 'rancher\/.*'"
+      default: --json --no-stats --skipByImage `rancher\/.*`
       required: true
       type: "string"
     - variable: "LOGENTRIES_TOKEN"
