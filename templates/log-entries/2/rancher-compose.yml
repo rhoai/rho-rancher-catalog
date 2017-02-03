@@ -1,0 +1,30 @@
+version: '2'
+catalog:
+  name: "Log Entries"
+  version: "v0.3.0"
+  description: "Ship Logs"
+  questions:
+    - variable: "LOGENTRIES_VERSION"
+      label: "Version"
+      description: "Log Entries image version."
+      default: "v0.3.0"
+      required: true
+      type: "string"
+    - variable: "LOGENTRIES_OPTIONS"
+      label: "Options"
+      description: "Log Entries options to start. By default this skips output from rancher comtainers and skips host statistics reporting. See pitrho/logentries for full set of options."
+      default: --json --no-stats --skipByImage rancher\/.*
+      required: true
+      type: "string"
+    - variable: "LOGENTRIES_TOKEN"
+      label: "Token"
+      description: "Log Entries Token for the specific log set. Must be generated in Log Entires UI. This value must in form `-t TOKEN_HERE`"
+      default: " "
+      required: true
+      type: "string"
+    - variable: "LOGENTRIES_EXCLUDE_LABEL"
+      label: "Exclude Host Label"
+      description: "Specify host labels that will preclude scheduling.  `logentries-exclude=true` by default."
+      default: logentries-exclude=true
+      required: true
+      type: "string"
