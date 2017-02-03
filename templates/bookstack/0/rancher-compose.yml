@@ -5,6 +5,12 @@ catalog:
   description: "BookStack Server"
   uuid: bookstack-0
   questions:
+    - variable: "BOOKSTACK_URL"
+      label: "Documentation URL"
+      description: "URL where bookstack server resides."
+      default: 'documentation.pitrho.com'
+      required: true
+      type: "string"
     - variable: "BOOKSTACK_HOST_LABEL"
       label: "Host Label"
       description: "Host Label required for container scheduling."
