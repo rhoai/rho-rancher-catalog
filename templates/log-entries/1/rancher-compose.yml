@@ -4,7 +4,6 @@ catalog:
   version: "v0.2.0"
   upgrade_from: ">=0.1.0"
   description: "Ship Logs"
-  uuid: log-entries-0.2.0
   questions:
     - variable: "LOGENTRIES_VERSION"
       label: "Version"

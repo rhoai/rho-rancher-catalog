@@ -3,7 +3,6 @@ catalog:
   name: "Log Entries"
   version: "v0.1.0"
   description: "Ship Logs"
-  uuid: log-entries-0.1.0
   questions:
     - variable: "LOGENTRIES_TOKEN"
       label: "Token"
