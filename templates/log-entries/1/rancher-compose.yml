@@ -1,10 +1,22 @@
 version: '2'
 catalog:
   name: "Log Entries"
-  version: "v0.1.0"
+  version: "v0.2.0"
   description: "Ship Logs"
   uuid: log-entries-0
   questions:
+    - variable: "LOGENTRIES_VERSION"
+      label: "Version"
+      description: "Log Entries image version."
+      default: "latest"
+      required: true
+      type: "string"
+    - variable: "LOGENTRIES_OPTIONS"
+      label: "Options"
+      description: "Log Entries options to start. By default this skips output from rancher comtainers and skips host statistics reporting. See pitrho/logentries for full set of options."
+      default: "--json --no-stats --skipByImage 'rancher\/.*'"
+      required: true
+      type: "string"
     - variable: "LOGENTRIES_TOKEN"
       label: "Token"
       description: "Log Entries Token for the specific log set. Must be generated in Log Entires UI. This value must in form `-t TOKEN_HERE`"
