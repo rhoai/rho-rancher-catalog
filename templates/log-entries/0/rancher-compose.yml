@@ -1,7 +1,7 @@
 version: '2'
 catalog:
   name: "Log Entries"
-  version: "v0.1.0"
+  version: "v1.0.0"
   description: "Ship Logs"
   uuid: log-entries-0
   questions:
