@@ -1,8 +1,8 @@
 version: '2'
 services:
   log-entries:
-    image: pitrho/logentries
-    command: --json --no-stats ${LOGENTRIES_TOKEN}
+    image: pitrho/logentries:${LOGENTRIES_VERSION}
+    command: ${LOGENTRIES_OPTIONS} ${LOGENTRIES_TOKEN}
     logging:
       driver: json-file
       options:
