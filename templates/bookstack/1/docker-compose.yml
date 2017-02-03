@@ -48,7 +48,7 @@ services:
     ports:
       - 80:80
     labels:
-      io.rancher.loadbalancer.target.bookstack: documentation.pitrho.com:80=80
+      io.rancher.loadbalancer.target.bookstack: ${BOOKSTACK_URL}:80=80
       io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}
     image: rancher/load-balancer-service
     links:
