@@ -3,7 +3,6 @@ catalog:
   name: "BookStack"
   version: "v0.1.0"
   description: "BookStack Server"
-  uuid: bookstack-0
   questions:
     - variable: "BOOKSTACK_HOST_LABEL"
       label: "Host Label"
