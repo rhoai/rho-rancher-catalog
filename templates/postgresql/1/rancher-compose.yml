@@ -1,0 +1,6 @@
+version: '2'
+catalog:
+  name: "PostgreSQL"
+  version: "v0.1.0"
+  description: "Postgres database with backups."
+  uuid: postgresql-1

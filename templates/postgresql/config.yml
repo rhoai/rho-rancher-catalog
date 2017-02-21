@@ -1,0 +1,6 @@
+name: PostgreSQL
+description: |
+  Postgres database with backup
+version: v0.1.0
+category: utilities
+maintainer: Pit Rho <info@pitrho.com>
