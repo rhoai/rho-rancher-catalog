@@ -1,0 +1,41 @@
+version: '2'
+services:
+  emqtt:
+    image: pitrho/emqtt:dev
+    ports:
+    - "18083:18083"
+    - "8883:8883"
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: mqtt-node=true
+      io.rancher.scheduler.affinity:host_label_soft_ne: remove-me=true
+      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+    logging:
+      driver: json-file
+      options:
+        max-file: '7'
+        max-size: 50m
+    environment:
+      EMQ_LOG__SYSLOG: "off"
+      EMQ_LOG__CONSOLE__LEVEL: "warning"
+      EMQ_MQTT__LISTENER__SSL__CACERTFILE: $EMQ_MQTT__LISTENER__SSL__CACERTFILE
+      EMQ_MQTT__LISTENER__SSL__CERTFILE: $EMQ_MQTT__LISTENER__SSL__CERTFILE
+      EMQ_MQTT__LISTENER__SSL__KEYFILE: $EMQ_MQTT__LISTENER__SSL__KEYFILE
+      EMQ_MQTT__LISTENER__SSL__FAIL_IF_NO_PEER_CERT: $EMQ_MQTT__LISTENER__SSL__FAIL_IF_NO_PEER_CERT
+      EMQ_MQTT__LISTENER__SSL__VERIFY: "verify_peer"
+      EMQ_NODE__PROCESS_LIMIT: $EMQ_NODE__PROCESS_LIMIT
+      EMQ_NODE__MAX_PORTS: $EMQ_NODE__MAX_PORTS
+      EMQ_NODE__MAX_ETS_TABLES: $EMQ_NODE__MAX_ETS_TABLES
+      EMQ_NODE__DIST_LISTEN_MIN: $EMQ_NODE__DIST_LISTEN_MIN
+      EMQ_NODE__DIST_LISTEN_MAX: $EMQ_NODE__DIST_LISTEN_MAX
+      EMQ_MQTT__LISTENER__TCP__ACCEPTORS: $EMQ_MQTT__LISTENER__TCP__ACCEPTORS
+      EMQ_MQTT__LISTENER__TCP__MAX_CLIENTS: $EMQ_MQTT__LISTENER__TCP__MAX_CLIENTS
+      EMQ_MQTT__LISTENER__SSL__ACCEPTORS: $EMQ_MQTT__LISTENER__SSL__ACCEPTORS
+      EMQ_MQTT__LISTENER__SSL__MAX_CLIENTS: $EMQ_MQTT__LISTENER__SSL__MAX_CLIENTS
+      EMQ_RANCHER_CLUSTER_SERVICE: $EMQ_RANCHER_CLUSTER_SERVICE
+      USE_RANCHER_IP: true
+    volumes:
+      - /config/mqtt_cacert.pem:/opt/emqttd/etc/certs/cacert.pem
+      - /config/mqtt_cert.pem:/opt/emqttd/etc/certs/cert.pem
+      - /config/mqtt_key.pem:/opt/emqttd/etc/certs/key.pem
+      - mnesia_data:/opt/emqttd/data/mnesia

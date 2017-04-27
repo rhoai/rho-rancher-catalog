@@ -1,0 +1,6 @@
+name: eMQTT
+description: |
+  Erlang MQTT Broker
+version: v0.1.0
+category: Messaging
+maintainer: Rho AI <info@rho.ai>

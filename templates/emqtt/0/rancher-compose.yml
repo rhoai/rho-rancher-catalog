@@ -1,0 +1,99 @@
+version: '2'
+catalog:
+  name: "eMQTT"
+  version: "v0.1.0"
+  description: "Erlang MQTT Broker"
+  questions:
+    - variable: "EMQ_MQTT__LISTENER__SSL__CACERTFILE"
+      label: "Certificate Authority"
+      description: "Path to Certificate Authority file."
+      default: "etc/certs/cacert.pem"
+      required: false
+      type: "string"
+    - variable: "EMQ_MQTT__LISTENER__SSL__CERTFILE"
+      label: "Server Certificate"
+      description: "Path to Server Certificate file."
+      default: "etc/certs/cert.pem"
+      required: false
+      type: "string"
+    - variable: "EMQ_MQTT__LISTENER__SSL__KEYFILE"
+      label: "Server Keyfile"
+      description: "Path to Server Keyfile."
+      default: "etc/certs/key.pem"
+      required: false
+      type: "string"
+    - variable: "EMQ_MQTT__LISTENER__SSL__FAIL_IF_NO_PEER_CERT"
+      label: "Failt if no Peer Certificate"
+      description: "Fail if peer does not provide certificate."
+      default: false
+      required: false
+      type: "boolean"
+    - variable: "mqtt.listener.ssl.verify"
+      label: "Verify Peer Certificate"
+      description: "Verify peer certificate."
+      default: ""
+      required: false
+      type: "string"
+    - variable: "EMQ_NODE__PROCESS_LIMIT"
+      label: "Node Process Limit"
+      description: "Node process limit."
+      default: 256000
+      required: false
+      type: "int"
+    - variable: "EMQ_NODE__MAX_PORTS"
+      label: "Max Ports"
+      description: "Maximum number of ports."
+      default: 65536
+      required: false
+      type: "int"
+    - variable: "EMQ_NODE__MAX_ETS_TABLES"
+      label: "Max ETS Tables"
+      description: "Max number of ETS tables."
+      default: 256000
+      required: false
+      type: "int"
+    - variable: "EMQ_NODE__DIST_LISTEN_MIN"
+      label: "Distributed Port Min"
+      description: "Minimum distributed port."
+      default: 6000
+      required: false
+      type: "int"
+    - variable: "EMQ_NODE__DIST_LISTEN_MAX"
+      label: "Distributed Port Max"
+      description: "Max distributed port."
+      default: 6009
+      required: false
+      type: "int"
+    - variable: "EMQ_MQTT__LISTENER__TCP__ACCEPTORS"
+      label: "TCP Acceptors"
+      description: "Size of acceptor pool."
+      default: 8
+      required: false
+      type: "int"
+    - variable: "EMQ_MQTT__LISTENER__TCP__MAX_CLIENTS"
+      label: "Max TCP Clients"
+      description: "Maximum number of concurrent clients."
+      default: 1024
+      required: false
+      type: "int"
+    - variable: "EMQ_MQTT__LISTENER__SSL__ACCEPTORS"
+      label: "SSL TCP Acceptors"
+      description: "Size of SSL acceport pool."
+      default: 4
+      required: false
+      type: "int"
+    - variable: "EMQ_MQTT__LISTENER__SSL__MAX_CLIENTS"
+      label: "Max SSL TCP Clients"
+      description: "Maximum number of concurrent SSL clients."
+      default: 512
+      required: false
+      type: "int"
+    - variable: "EMQ_RANCHER_CLUSTER_SERVICE"
+      label: "Rancher Cluster Service "
+      description: "Rancher service to use when joining the cluster."
+      required: true
+      type: "string"
+services:
+  emqtt:
+    scale: 1
+    retain_ip: true
