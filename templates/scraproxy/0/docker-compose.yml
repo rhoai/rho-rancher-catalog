@@ -1,0 +1,20 @@
+version: '2'
+services:
+  scraproxy:
+    image: fabienvauchelles/scrapoxy:2.4.2
+    environment:
+      COMMANDER_PASSWORD: ${COMMANDER_PASSWORD}
+      PROVIDERS_AWSEC2_ACCESSKEYID: ${PROVIDERS_AWSEC2_ACCESSKEYID}
+      PROVIDERS_AWSEC2_SECRETACCESSKEY: ${PROVIDERS_AWSEC2_SECRETACCESSKEY}
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+      io.rancher.scheduler.affinity:host_label: $HOST_LABEL
+    logging:
+      driver: json-file
+      options:
+        max-file: '7'
+        max-size: 50m
+    ports:
+      - "8888:8888"
+      - "8889:8889"

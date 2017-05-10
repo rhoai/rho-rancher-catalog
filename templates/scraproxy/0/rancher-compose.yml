@@ -1,0 +1,31 @@
+version: '2'
+catalog:
+  name: "Scraproxy"
+  version: "v0.1.0"
+  description: "Scrapoxy hides your scraper behind a cloud."
+  uuid: scraproxy-0
+  questions:
+    - variable: "COMMANDER_PASSWORD"
+      label: "Password"
+      description: "Password for management console."
+      default: "changeme"
+      required: true
+      type: "string"
+    - variable: "PROVIDERS_AWSEC2_ACCESSKEYID"
+      label: "AWS Access Key"
+      description: "Access key for IAM profile in AWS."
+      default: ""
+      required: true
+      type: "string"
+    - variable: "PROVIDERS_AWSEC2_SECRETACCESSKEY"
+      label: "AWS Secret Key"
+      description: "Secret key for IAM profile in AWS."
+      default: ""
+      required: true
+      type: "string"
+    - variable: "HOST_LABEL"
+      label: "Host label"
+      description: "Label host must have for this service to be scaled."
+      default: scraproxy-server=true
+      required: true
+      type: "string"

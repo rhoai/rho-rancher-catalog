@@ -1,0 +1,6 @@
+name: Scraproxy
+description: |
+  Scrapoxy hides your scraper behind a cloud.
+version: v0.1.0
+category: utilities
+maintainer: fabienvauchelles
