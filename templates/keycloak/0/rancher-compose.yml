@@ -35,6 +35,11 @@ catalog:
       description: "SSL certificate"
       required: true
       type: certificate
+    - variable: "KEYCLOAK_HOST_LABEL"
+      label: "Scheduling Host Label"
+      description: "Scheduling host label"
+      required: true
+      type: "string"
 services:
   keycloak:
     scale: 1
