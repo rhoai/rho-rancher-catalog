@@ -1,0 +1,6 @@
+name: KeyCloak
+description: |
+  KeyCloak Auth Service
+version: v0.1.0
+category: Auth
+maintainer: Rho AI <info@rho.ai>
