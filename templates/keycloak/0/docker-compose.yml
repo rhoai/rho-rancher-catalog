@@ -24,11 +24,11 @@ services:
       MYSQL_PASSWORD: $MYSQL_PASSWORD
 
   keycloak-lb:
-    image: rancher/lb-service-haproxy
-    links:
-    - keycloak:keycloak
-    ports:
-    - "80:80"
-    - "443:443"
-    labels:
-      io.rancher.scheduler.affinity:host_label: $KEYCLOAK_HOST_LABEL
+    image: rancher/lb-service-haproxy
+    links:
+    - keycloak:keycloak
+    ports:
+    - "80:80"
+    - "443:443"
+    labels:
+      io.rancher.scheduler.affinity:host_label: $KEYCLOAK_HOST_LABEL
