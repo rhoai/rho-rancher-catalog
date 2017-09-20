@@ -1,7 +1,7 @@
 version: '2'
 services:
   keycloak:
-    image: rhoai/keycloak:dev
+    image: rhoai/keycloak:v3.2.1-0.1.0
     expose:
     - "8080"
     - "7600"
