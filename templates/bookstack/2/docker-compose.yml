@@ -13,8 +13,8 @@ services:
       - DB_PASSWORD=${BOOKSTACK_PASS}
     ports:
       - "80"
-  volumes:
-    - bookstackuploads:/var/www/BookStack/public/uploads
+    volumes:
+      - bookstackuploads:/var/www/BookStack/public/uploads
 
   bookstack-db:
     image: pitrho/docker-mysql:5.6-2.1.0
