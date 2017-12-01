@@ -45,7 +45,6 @@ services:
       - AWS_DEFAULT_REGION=${BOOKSTACK_AWS_DEFAULT_REGION}
       - S3_BUCKET=${BOOKSTACK_S3_BUCKET}
       - CRON_TIME=${BOOKSTACK_CRON_TIME}
-      - CRON_TIME=${BOOKSTACK_CRON_TIME}
       - VOLUME_DIR=/var/www/BookStack/public/uploads
     volumes:
       - bookstackuploads:/var/www/BookStack/public/uploads
