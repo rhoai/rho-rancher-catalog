@@ -3,8 +3,8 @@ catalog:
   name: "Janitor"
   version: "v1.6.0"
   description: "Docker cleanup"
-  minimum_rancher_version: v1.3.3
-  maximum_rancher_version: v1.3.99
+  minimum_rancher_version: v1.6.0
+  maximum_rancher_version: v1.6.12
   uuid: janitor-0
   questions:
     - variable: "FREQUENCY"
