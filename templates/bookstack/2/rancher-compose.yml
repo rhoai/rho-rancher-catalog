@@ -1,7 +1,7 @@
 version: '2'
 catalog:
   name: "BookStack"
-  version: "v0.3.4"
+  version: "v0.3.5"
   description: "BookStack Server"
   questions:
     - variable: "BOOKSTACK_URL"
@@ -74,30 +74,30 @@ catalog:
 services:
   bookstack-lb:
     scale: 1
-    lb_config:
-      certs:
-        - ${SSL_CERTIFICATE}
-      config: |-
-        frontend 80
-            redirect scheme https code 301 if !{ ssl_fc }
-      default_cert: ${SSL_CERTIFICATE}
-      port_rules:
-      - hostname: ''
-        path: ''
-        protocol: http
-        service: bookstack
-        source_port: 80
-        target_port: 80
-      - hostname: ''
-        path: ''
-        protocol: https
-        service: bookstack
-        source_port: 443
-        target_port: 80
-    health_check:
-      healthy_threshold: 2
-      response_timeout: 2000
-      port: 42
-      unhealthy_threshold: 3
-      interval: 2000
-      strategy: recreate
+  lb_config:
+    certs:
+      - ${SSL_CERTIFICATE}
+    config: |-
+      frontend 80
+          redirect scheme https code 301 if !{ ssl_fc }
+    default_cert: ${SSL_CERTIFICATE}
+    port_rules:
+    - hostname: ''
+      path: ''
+      protocol: http
+      service: bookstack
+      source_port: 80
+      target_port: 80
+    - hostname: ''
+      path: ''
+      protocol: https
+      service: bookstack
+      source_port: 443
+      target_port: 80
+  health_check:
+    healthy_threshold: 2
+    response_timeout: 2000
+    port: 42
+    unhealthy_threshold: 3
+    interval: 2000
+    strategy: recreate
