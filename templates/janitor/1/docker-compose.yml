@@ -1,0 +1,23 @@
+version: '2'
+services:
+  docker-cleanup:
+    image: pitrho/docker-cleanup
+    environment:
+      CLEAN_PERIOD: ${FREQUENCY}
+      DELAY_TIME: 600
+      KEEP_IMAGES: ${KEEP_IMAGES}
+      KEEP_CONTAINERS: ${KEEP_CONTAINERS}
+    labels:
+       io.rancher.scheduler.global: "true"
+       io.rancher.scheduler.affinity:host_label_ne: ${EXCLUDE_LABEL}
+    privileged: true
+    tty: true
+    stdin_open: true
+    logging:
+      driver: json-file
+      options:
+        max-file: '7'
+        max-size: 50m
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker:/var/lib/docker

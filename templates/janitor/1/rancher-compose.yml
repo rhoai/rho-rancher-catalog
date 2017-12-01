@@ -1,10 +1,10 @@
 version: '2'
 catalog:
   name: "Janitor"
-  version: "v1.4.0"
+  version: "v1.5.0"
   description: "Docker cleanup"
-  minimum_rancher_version: v1.1.4
-  maximum_rancher_version: v1.1.4
+  minimum_rancher_version: v1.3.3
+  maximum_rancher_version: v1.3.99
   uuid: janitor-0
   questions:
     - variable: "FREQUENCY"
@@ -22,12 +22,12 @@ catalog:
     - variable: "KEEP_IMAGES"
       label: "Keep images"
       description: "A comma separated list of images that should never be removed"
-      default: "rancher/agent:v1.0.1,rancher/agent:v1.0.2,rancher/agent-instance:v0.8.1,rancher/agent-instance:v0.8.3"
+      default: "rancher/agent:v1.1.3,rancher/server:v1.3.3,rancher/lb-service-haproxy:v0.4.9"
       required: false
       type: "string"
     - variable: "KEEP_CONTAINERS"
       label: "Keep containers"
       description: "A comma separated list of images for running containers that should never be removed"
-      default: "rancher/agent:v1.0.1,rancher/agent:v1.0.2,rancher/agent-instance:v0.8.1,rancher/agent-instance:v0.8.3"
+      default: "rancher/agent:v1.1.3,rancher/server:v1.3.3,rancher/lb-service-haproxy:v0.4.9"
       required: false
       type: "string"
