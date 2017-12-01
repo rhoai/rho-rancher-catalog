@@ -1,0 +1,68 @@
+version: '2'
+catalog:
+  name: "BookStack"
+  version: "v0.2.0"
+  description: "BookStack Server"
+  questions:
+    - variable: "BOOKSTACK_URL"
+      label: "Documentation URL"
+      description: "URL where bookstack server resides."
+      default: 'documentation.pitrho.com'
+      required: true
+      type: "string"
+    - variable: "BOOKSTACK_HOST_LABEL"
+      label: "Host Label"
+      description: "Host Label required for container scheduling."
+      default: 'bookstack-server=true'
+      required: true
+      type: "string"
+    - variable: "BOOKSTACK_DB"
+      label: "Database Name"
+      description: "Name of MySQL database."
+      default: 'bookstack'
+      required: true
+      type: "string"
+    - variable: "BOOKSTACK_USER"
+      label: "MySQL Username"
+      description: "Username for MySQL user."
+      default: "bookstack_user"
+      required: true
+      type: "string"
+    - variable: "BOOKSTACK_PASS"
+      label: "MySQL Password"
+      description: "Password for MySQL User."
+      required: true
+      type: "string"
+    - variable: "BOOKSTACK_AWS_ACCESS_KEY_ID"
+      label: "AWS Access Key"
+      description: "Access key for IAM user with permissions to the S3 bucket designated for backups."
+      required: true
+      type: "string"
+    - variable: "BOOKSTACK_AWS_SECRET_ACCESS_KEY"
+      label: "AWS Secret Key"
+      description: "Secret key for IAM user with permissions to the S3 bucket designated for backups."
+      required: true
+      type: "string"
+    - variable: "BOOKSTACK_S3_BUCKET"
+      label: "S3 Bucket Path"
+      description: "S3 Bucket Path used for backups."
+      required: true
+      type: "string"
+    - variable: "BOOKSTACK_AWS_DEFAULT_REGION"
+      label: "S3 Default Region"
+      description: "S3 Default Region used for backups."
+      required: true
+      default: "us-east-1"
+      type: "string"
+    - variable: "BOOKSTACK_CRON_TIME"
+      label: "Backup Cron Schedule"
+      description: "Cron Schedule for automated backups."
+      required: true
+      default: "0 5 * * * root"
+      type: "string"
+    - variable: "BOOKSTACK_LOW_MEMORY_MODE"
+      label: "Use Low Memory Mode"
+      description: "Low memory mode sets innodb_buffer_pool_size to 20M"
+      required: true
+      default: "false"
+      type: "string"
