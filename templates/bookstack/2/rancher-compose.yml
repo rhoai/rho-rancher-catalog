@@ -1,7 +1,7 @@
 version: '2'
 catalog:
   name: "BookStack"
-  version: "v0.3.6"
+  version: "v0.3.7"
   description: "BookStack Server"
   questions:
     - variable: "BOOKSTACK_URL"
