@@ -3,7 +3,7 @@ services:
   bookstack:
     image: solidnerd/bookstack:0.11.0
     labels:
-      io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}
+      io.rancher.scheduler.affinity:host_label: ${BOOKSTACK_HOST_LABEL}
     links:
       - bookstack-db:bookstack-db
     environment:
@@ -20,7 +20,7 @@ services:
     image: pitrho/docker-mysql:5.6-2.1.0
     labels:
       io.rancher.sidekicks: bookstack-db-backup
-      io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}
+      io.rancher.scheduler.affinity:host_label: ${BOOKSTACK_HOST_LABEL}
     environment:
       - ON_CREATE_DB=${BOOKSTACK_DB}
       - MYSQL_USER=${BOOKSTACK_USER}
@@ -55,7 +55,7 @@ services:
       - 443:443
     labels:
       io.rancher.loadbalancer.target.bookstack: ${BOOKSTACK_URL}:80=80
-      io.rancher.scheduler.affinity:host_label: ${HOST_LABEL}
+      io.rancher.scheduler.affinity:host_label: ${BOOKSTACK_HOST_LABEL}
     image: rancher/lb-service-haproxy
     links:
       - bookstack:bookstack
