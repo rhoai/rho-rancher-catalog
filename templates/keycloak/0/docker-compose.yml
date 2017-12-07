@@ -1,7 +1,7 @@
 version: '2'
 services:
   keycloak:
-    image: rhoai/keycloak:v3.2.1-0.1.0
+    image: rhoai/keycloak:v3.3.0-0.1.0
     expose:
     - "8080"
     - "7600"
@@ -21,6 +21,7 @@ services:
       MYSQL_DATABASE: $MYSQL_DATABASE
       MYSQL_USERNAME: $MYSQL_USERNAME
       MYSQL_PASSWORD: $MYSQL_PASSWORD
+      PROXY_ADDRESS_FORWARDING: "true"
 
   keycloak-lb:
     image: rancher/lb-service-haproxy
