@@ -1,0 +1,24 @@
+version: '2'
+catalog:
+  name: "Rapid7 InsightOps"
+  version: "v0.1.0"
+  description: "Ship Logs"
+  questions:
+    - variable: "COMMAND_OPTIONS"
+      label: "Options"
+      description: "Log Entries options to start. By default this skips output from rancher comtainers and skips host statistics reporting."
+      default: --json --no-stats --skipByImage rancher\/.* -r us
+      required: true
+      type: "string"
+    - variable: "R7INSIGHTOPS_TOKEN"
+      label: "Token"
+      description: "Log Token for the specific log set. Must be generated in the InsightOps UI. This value must in form `-t TOKEN_HERE`"
+      default: " "
+      required: false
+      type: "string"
+    - variable: "EXCLUDE_LABEL"
+      label: "Exclude Host Label"
+      description: "Specify host labels that will preclude scheduling.  `r7insightops-exclude=true` by default."
+      default: r7insightops-exclude=true
+      required: true
+      type: "string"

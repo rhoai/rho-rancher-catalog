@@ -1,0 +1,6 @@
+name: Rapid7 InsightOps
+description: |
+  Ship all STDOUT logs to Rapid7 InsightOps
+version: v0.1.0
+category: monitoring
+maintainer: Rho AI
