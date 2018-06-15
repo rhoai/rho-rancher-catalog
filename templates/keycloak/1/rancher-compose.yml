@@ -1,0 +1,73 @@
+version: '2'
+catalog:
+  name: "KeyCloak"
+  version: "v0.2.0"
+  description: "KeyCloak Auth Server"
+  questions:
+    - variable: "MYSQL_ADDR"
+      label: "MySQL Host Address"
+      description: "Address of mysql server"
+      required: true
+      type: "string"
+    - variable: "MYSQL_PORT"
+      label: "MySQL Host Port"
+      description: "Port of mysql server"
+      default: 3306
+      required: true
+      type: "int"
+    - variable: "MYSQL_DATABASE"
+      label: "Database Name"
+      description: "Name of KeyCloak MySQL database"
+      required: true
+      type: "string"
+    - variable: "MYSQL_USERNAME"
+      label: "MYSQL Username"
+      description: "MySQL username"
+      required: true
+      type: "string"
+    - variable: "MYSQL_PASSWORD"
+      label: "MYSQL Password"
+      description: "MySQL Password"
+      required: true
+      type: "password"
+    - variable : "SSL_CERTIFICATE"
+      label: "SSL Certificate"
+      description: "SSL certificate"
+      required: true
+      type: certificate
+    - variable: "KEYCLOAK_HOST_LABEL"
+      label: "Scheduling Host Label"
+      description: "Scheduling host label"
+      required: true
+      type: "string"
+services:
+  keycloak:
+    scale: 1
+  keycloak-lb:
+    scale: 1
+    lb_config:
+      certs: []
+      config: |-
+        frontend 80
+            redirect scheme https code 301 if !{ ssl_fc }
+      default_cert: ${SSL_CERTIFICATE}
+      port_rules:
+      - hostname: ''
+        path: ''
+        protocol: http
+        service: keycloak
+        source_port: 80
+        target_port: 8080
+      - hostname: ''
+        path: ''
+        protocol: https
+        service: keycloak
+        source_port: 443
+        target_port: 8080
+    health_check:
+      healthy_threshold: 2
+      response_timeout: 2000
+      port: 80
+      unhealthy_threshold: 3
+      interval: 2000
+      strategy: recreate
