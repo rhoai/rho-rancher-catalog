@@ -1,14 +1,15 @@
 version: '2'
 services:
   cassandra-repair-inc:
-    image: pitrho/cassandra-nodetool:v0.1.0
+    image: pitrho/cassandra-nodetool:v0.1.3
     labels:
       io.rancher.container.hostname_override: container_name
       io.rancher.scheduler.affinity:host_label: cassandra-server=true
-    log_driver: "json-file"
-    log_opt:
-      max-size: "50m"
-      max-file: "7"
+    logging:
+      driver: json-file
+      options:
+        max-file: '7'
+        max-size: 50m
     environment:
       CASSANDRA_JMX_PORT: $CASSANDRA_JMX_PORT
       CASSANDRA_JMX_USERNAME: $CASSANDRA_JMX_USERNAME
