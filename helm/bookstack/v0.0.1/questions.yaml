@@ -1,18 +1,15 @@
 questions:
 - variable: hostname
-  description: "Use default Docker image"
-  label: Use Default Image
-  type: boolean
-  show_subquestion_if: false
+  description: "Domain of bookstack server"
+  label: Host
+  type: string
   group: "Host Configuration"
 
 - variable: database.password
-  description: "Use default Docker image"
-  label: Use Default Image
-  type: boolean
-  show_subquestion_if: false
+  description: "Password for MySQL database"
+  label: Database Password
+  type: string
   group: "Database Configuration"
-  subquestions:
 
 - group: "Database Backup Configuration"
   subquestions:
