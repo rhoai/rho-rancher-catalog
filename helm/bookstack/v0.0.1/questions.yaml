@@ -1,0 +1,30 @@
+questions:
+- variable: hostname
+  description: "Use default Docker image"
+  label: Use Default Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Host Configuration"
+
+- variable: database.password
+  description: "Use default Docker image"
+  label: Use Default Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Database Configuration"
+  subquestions:
+
+- group: "Database Backup Configuration"
+  subquestions:
+  - variable: backup.awsAccessKeyId
+    description: "Access key for IAM user with permissions to the S3 bucket designated for backups"
+    label: AWS Access Key ID
+    type: string
+  - variable: backup.awsSecretAccessKey
+    description: "Secret key for IAM user with permissions to the S3 bucket designated for backups"
+    label: AWS Secret Access Key
+    type: string
+  - variable: backup.awsS3Bucket
+    description: "S3 Bucket Path used for backups"
+    label: S3 Bucket Folder
+    type: string

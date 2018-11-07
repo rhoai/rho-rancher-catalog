@@ -1,0 +1,30 @@
+{{- $fullName := include "bookstack.name" . -}}
+{{- $ingressPath := .Values.ingress.path -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ $fullName }}-ingress
+  labels:
+    app: {{ template "bookstack.name" . }}
+    chart: {{ template "bookstack.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+{{- if .Values.ingress.tls }}
+  tls:
+    - hosts:
+      - {{ .Values.hostname }}
+      secretName: {{ .Chart.Name }}-tls
+{{- end }}
+  rules:
+    - host: {{ .Values.hostname }}
+      http:
+        paths:
+          - path: {{ $ingressPath }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: http

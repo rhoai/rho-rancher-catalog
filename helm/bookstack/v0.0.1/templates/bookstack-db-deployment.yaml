@@ -1,0 +1,94 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "bookstack.name" . }}-db
+  labels:
+    app: {{ template "bookstack.name" . }}
+    chart: {{ template "bookstack.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ template "bookstack.name" . }}-db
+        release: {{ .Release.Name }}
+    spec:
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      containers:
+      - name: {{ template "bookstack.name" . }}-db
+        image: "{{ .Values.database.image.repository }}:{{ .Values.database.image.tag }}"
+        imagePullPolicy: {{ .Values.database.image.pullPolicy }}
+        volumeMounts:
+        env:
+          - name: LOW_MEMORY_MODE
+            value: {{ .Values.database.lowMemoryMode | quote }}
+          - name: MYSQL_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "bookstack.name" . }}-db-password
+                key: db-password
+          - name: MYSQL_USER
+            value: {{ .Values.database.user }}
+          - name: ON_CREATE_DB
+            value: {{ .Values.database.database }}
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: bookstackdata
+        ports:
+          - name: mysql
+            containerPort: {{ .Values.database.port }}
+            protocol: TCP
+      - name: {{ template "bookstack.name" . }}-db-backup
+        image: pitrho/mysql-bookstack:latest
+        args:
+          - /enable_backups.sh
+        env:
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "bookstack.name" . }}-backup-aws-access-key-id
+                key: awsAccessKeyId
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "bookstack.name" . }}-backup-aws-secret-access-key
+                key: awsSecretAccessKey
+          - name: AWS_DEFAULT_REGION
+            value: {{ .Values.backup.awsDefaultRegion }}
+          - name: CRON_TIME
+            value: {{ .Values.backup.cronTime | quote}}
+          - name: MYSQL_DB
+            value: {{ .Values.database.database }}
+          - name: MYSQL_HOST
+            value: {{ template "bookstack.name" . }}-db
+          - name: MYSQL_PASS
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "bookstack.name" . }}-db-password
+                key: db-password
+          - name: MYSQL_PORT
+            value: {{ .Values.database.port | quote}}
+          - name: MYSQL_USER
+            value: {{ .Values.database.user }}
+          - name: S3_BUCKET
+            value: {{ .Values.backup.awsS3Bucket }}
+          - name: VOLUME_DIR
+            value: /var/www/BookStack/public/uploads
+        volumeMounts:
+        - mountPath: /var/www/BookStack/public/uploads
+          name: bookstackuploads
+      restartPolicy: Always
+      volumes:
+      - name: bookstackdata
+        persistentVolumeClaim:
+          claimName: bookstackdata
+      - name: bookstackuploads
+        persistentVolumeClaim:
+          claimName: bookstackuploads

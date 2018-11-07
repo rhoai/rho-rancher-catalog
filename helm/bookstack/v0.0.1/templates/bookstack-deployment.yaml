@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "bookstack.name" . }}
+  labels:
+    app: {{ template "bookstack.name" . }}
+    chart: {{ template "bookstack.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: {{ template "bookstack.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          env:
+            - name: DB_DATABASE
+              value: {{ .Values.database.database | quote }}
+            - name: DB_HOST
+              value: {{ template "bookstack.name" . }}-db
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "bookstack.name" . }}-db-password
+                  key: db-password
+            - name: DB_USERNAME
+              value: {{ .Values.database.user | quote }}
+          volumeMounts:
+            - name: bookstackuploads
+              mountPath: /var/www/BookStack/public/uploads
+          restartPolicy: Always
+      volumes:
+      - name: bookstackuploads
+        persistentVolumeClaim:
+          claimName: bookstackuploads

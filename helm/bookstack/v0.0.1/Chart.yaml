@@ -1,0 +1,13 @@
+name: bookstack
+version: 0.0.1
+appVersion: 0.24.1
+description: BookStack is a simple, self-hosted, easy-to-use platform for organising and storing information.
+keywords:
+- docs
+- documentation
+home: https://www.bookstackapp.com/
+sources:
+- https://github.com/BookStackApp/BookStack
+maintainers:
+- name: Anthony Alves
+  email: anthony.alves@rho.ai

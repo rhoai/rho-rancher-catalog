@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "bookstack.name" . }}-db
+  labels:
+    app: {{ template "bookstack.name" . }}-db
+    chart: {{ template "bookstack.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.database.port }}
+      targetPort: {{ .Values.database.port }}
+      protocol: TCP
+      name: mysql
+  selector:
+    app: {{ template "bookstack.name" . }}-db
+    release: {{ .Release.Name }}
